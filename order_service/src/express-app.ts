@@ -2,6 +2,7 @@ import express, { Express, NextFunction, Request, Response } from "express";
 import cors from "cors";
 import cartRoutes from './routes/cart.routes';
 import orderRoutes from './routes/order.routes';
+import { httpLogger, HandleErrorWithLogger } from "./utils";
 
 // import catalogRouter from './api/catalog.routes'
 
@@ -15,6 +16,7 @@ import orderRoutes from './routes/order.routes';
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(httpLogger);
 // app.use(myMiddlewareFunction);
 
 app.use(cartRoutes)
@@ -28,5 +30,6 @@ app.use("/", (_req: Request, res: Response) => {
 // app.listen(PORT, () => {
 //     console.log("Listening us tot: ", PORT);
 // })
+app.use(HandleErrorWithLogger);
 
 export default app;
