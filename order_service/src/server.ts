@@ -2,11 +2,14 @@
 // ubiquitous Language : all can call this
 // not tightly coupled
 
-import expressApp from './express-app';
+import { ExpressApp } from "./express-app";
+
 import { logger } from './utils';
 
+const PORT = process.env.PORT || 9000;
+
 export const StartServer = async() => {
-    const PORT = process.env.PORT || 9000;
+    const expressApp = await ExpressApp();
 
     expressApp.listen(PORT, () => {
         logger.info( `App is listening to ${PORT}`);

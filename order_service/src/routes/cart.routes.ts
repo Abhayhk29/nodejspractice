@@ -19,7 +19,7 @@ const authMiddleware = async(req: Request, res: Response, next: NextFunction) =>
 
 router.post(
     "/cart",
-    RequestAuthorizer,
+    // RequestAuthorizer,
     async (req: Request, res: Response, next: NextFunction) => {
         try {            
             const error = ValidateRequest<CartRequestInput>(
@@ -40,7 +40,7 @@ router.post(
 );
 router.get(
     "/cart",
-    RequestAuthorizer,
+    // RequestAuthorizer,
     async (req: Request, res: Response, next: NextFunction) => {
         const response = await service.GetCart(req.body.customerId, repo);
         return res.status(200).json(response)
@@ -48,7 +48,7 @@ router.get(
 );
 router.patch(
     "/cart/:lineItemId",
-    RequestAuthorizer,
+    // RequestAuthorizer,
     async (req: Request, res: Response, next: NextFunction) => {
         const liteItemId = req.params.lineItemId;
         const response = await service.EditCart({
@@ -60,7 +60,7 @@ router.patch(
 );
 router.delete(
     "/cart/:lineItemId",
-    RequestAuthorizer,
+    // RequestAuthorizer,
     async (req: Request, res: Response, next: NextFunction) => {
         const liteItemId = req.params.lineItemId;
         const response = await service.DeleteCart(+liteItemId, repo);
