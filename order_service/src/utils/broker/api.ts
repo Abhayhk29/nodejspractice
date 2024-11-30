@@ -6,7 +6,7 @@ import { User } from "../../dto/User.Model";
 
 
 const AUTH_SERVICE_BASE_URL =
-  process.env.AUTH_SERVICE_BASE_URL || "http://localhost:9000";
+  process.env.AUTH_SERVICE_BASE_URL || "http://localhost:9001";
 
 const CATALOG_BASE_URL = process.env.CATALOG_BASE_URL || 'http://localhost:8000';
 export const GetProductDetails = async(productId : number) => {

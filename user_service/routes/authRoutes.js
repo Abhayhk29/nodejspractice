@@ -14,6 +14,7 @@ const gereateToken = (user) => {
 };
 
 router.post("/register", async (req, res) => {
+    console.log(req.body);
   const { username, email, password } = req.body;
 
   const userExists = await db.query("SELECT * FROM users WHERE email = $1", [
@@ -38,7 +39,7 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
-
+    console.log(req.body);
   const user = await db.query("SELECT * FROM users WHERE email = $1", [email]);
 
   if (user.rows.length === 0) {
