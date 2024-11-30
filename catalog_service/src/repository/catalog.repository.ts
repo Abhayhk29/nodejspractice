@@ -9,6 +9,7 @@ export class CatalogRepository implements ICatalogRepository {
     constructor(){
         this._prisma = new PrismaClient()
     }
+    
     async create(data: Product): Promise<Product> {
         return this._prisma.product.create({
             data
@@ -52,6 +53,17 @@ export class CatalogRepository implements ICatalogRepository {
         throw new NotFoundError('Product not found');
         // const product = ProductFactory.build();
         // return Promise.resolve(product);
+    }
+
+    findStock(ids: number[]): Promise<Product[]> {
+        // throw new Error("Method not implemented.");
+        return this._prisma.product.findMany({
+            where:{
+                id:{
+                    in: ids
+                }
+            }
+        })
     }
     
     

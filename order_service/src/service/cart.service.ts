@@ -41,40 +41,75 @@ export const CreateCart = async (input: CartRequestInput & {customerId: number},
 export const GetCart = async (id: number, repo: CartRepositoryType) => {
     // get customer cart data
 
-    const cart = await repo.findCart(id);
-    if (!cart) {
-        throw new NotFoundError('Cart not found')
-    }
-    // list out all line items in the cart
+    // const cart = await repo.findCart(id);
+    // if (!cart) {
+    //     throw new NotFoundError('Cart not found')
+    // }
+    // // list out all line items in the cart
 
-    const lineItems = cart.lineItems;
+    // const lineItems = cart.lineItems;
 
-    if(!lineItems.length){
-        throw new NotFoundError('Cart items not found')
-    }
+    // if(!lineItems.length){
+    //     throw new NotFoundError('Cart items not found')
+    // }
 
-    // verify with inventory sevice if the product is still available
-    const stockDetails = await GetStockDetails(
-        lineItems.map((item) => item.productId)
-    )
+    // // verify with inventory sevice if the product is still available
+    // const stockDetails = await GetStockDetails(
+    //     lineItems.map((item) => item.productId)
+    // )
 
-    if(Array.isArray(stockDetails)){
-        // update stock availibility in cart items
-        lineItems.forEach((lineItem) => {
-            let stockItem = lineItems.find((stock) => stock.id === lineItem.productId);
-            if(stockItem){
-                lineItem.availability = stockItem?.stock;
-            }
-        })
-        // update cart line items
-        cart.lineItems = lineItems;
-    }
+    // if(Array.isArray(stockDetails)){
+    //     // update stock availibility in cart items
+    //     lineItems.forEach((lineItem) => {
+    //         let stockItem = lineItems.find((stock) => stock.id === lineItem.productId);
+    //         if(stockItem){
+    //             lineItem.availability = stockItem?.stock;
+    //         }
+    //     })
+    //     // update cart line items
+    //     cart.lineItems = lineItems;
+    // }
 
-    // return the updated cart data with latest stock avaiability
+    // // return the updated cart data with latest stock avaiability
     
     
-    return cart;
-    // return {message : "GET cart from service"};
+    // return cart;
+    // // return {message : "GET cart from service"};
+    // get customer cart data
+  const cart = await repo.findCart(id);
+  if (!cart) {
+    throw new NotFoundError("cart does not exist");
+  }
+
+  // list out all line items in the cart
+  const lineItems = cart.lineItems;
+
+  if (!lineItems.length) {
+    throw new NotFoundError("cart items not found");
+  }
+
+  // verify with inventory service if the product is still available
+  const stockDetails = await GetStockDetails(
+    lineItems.map((item) => item.productId)
+  );
+
+  if (Array.isArray(stockDetails)) {
+    // update stock availability in cart line items
+    lineItems.forEach((lineItem) => {
+      const stockItem = stockDetails.find(
+        (stock) => stock.id === lineItem.productId
+      );
+      if (stockItem) {
+        lineItem.availability = stockItem.stock;
+      }
+    });
+
+    // update cart line items
+    cart.lineItems = lineItems;
+  }
+
+  // return updated cart data with latest stock availability
+  return cart;
 }
 
 const AuthorisedCart = async(lineItemId:number, customerId:number, repo: CartRepositoryType) =>{

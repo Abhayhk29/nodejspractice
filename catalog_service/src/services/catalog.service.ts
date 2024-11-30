@@ -44,4 +44,12 @@ export class CatalogService {
         return response;
     }
 
+    async getProductStock(ids: number[]){
+        const products = await this._repositiry.findStock(ids);
+        if(!products){
+            throw new Error("Unable to find the stock details")
+        }
+        return products;
+    }
+
 }
