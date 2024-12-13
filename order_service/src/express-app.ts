@@ -5,6 +5,7 @@ import orderRoutes from './routes/order.routes';
 import { httpLogger, HandleErrorWithLogger } from "./utils";
 import { MessageBroker } from "./utils/broker/message-broker";
 import { Consumer, Producer } from "kafkajs";
+import { InitializeBroker } from "./service/broker.service";
 
 // import catalogRouter from './api/catalog.routes'
 
@@ -22,25 +23,26 @@ app.use(express.json());
 app.use(httpLogger);
 // app.use(myMiddlewareFunction);
 
+await InitializeBroker();
 
 // /first step connect to the producer and consumer
-const producer = await MessageBroker.connectProducer<Producer>();
-producer.on("producer.connect", () => {
-    console.log("Producer connected")
-})
+// const producer = await MessageBroker.connectProducer<Producer>();
+// producer.on("producer.connect", () => {
+//     console.log("Producer connected")
+// })
 
-const consumer = await MessageBroker.connectConsumer<Consumer>();
-consumer.on("consumer.connect",() => {
-    console.log("consumer connected");
-})
+// const consumer = await MessageBroker.connectConsumer<Consumer>();
+// consumer.on("consumer.connect",() => {
+//     console.log("consumer connected");
+// })
 
-// subscribe to the tope or publish the message
+// // subscribe to the tope or publish the message
 
-// subscribe the topic
-await MessageBroker.subscribe((message) => {
-    console.log("message recieved")
-    console.log("message recieved",message)
-},'OrderEvents')
+// // subscribe the topic
+// await MessageBroker.subscribe((message) => {
+//     console.log("message recieved")
+//     console.log("message recieved",message)
+// },'OrderEvents')
 
 app.use(cartRoutes)
 app.use(orderRoutes)
