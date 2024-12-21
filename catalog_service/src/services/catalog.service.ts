@@ -52,4 +52,8 @@ export class CatalogService {
         return products;
     }
 
+    async handleBrokerMessage(data:any){
+        
+    }
+
 }
