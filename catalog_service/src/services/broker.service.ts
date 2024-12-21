@@ -14,22 +14,24 @@ export class BrokerService {
     public async initializeBroker() {
         this.producer = await MessageBroker.connectProducer<Producer>();
         this.producer.on("producer.connect", async () => {
-            console.log("Producer connected successfully");
+            console.log("catalog service services connected successfully");
         });
 
         this.consumer = await MessageBroker.connectConsumer<Consumer>();
         this.consumer.on("consumer.connect", async () => {
-            console.log("Consumer connected successfully");
+            console.log("catalog service connected successfully");
         });
 
         // keep listening to consumers events
         // perform the action based on the event
-        await MessageBroker.subscribe(this.catalogService.handleBrokerMessage, "CatalogEvents");
+        await MessageBroker.subscribe(this.catalogService.handleBrokerMessage.bind(this.catalogService), "CatalogEvents");
     }
 
     // publish disconitnue product event
     public async sendDeleteProductMessage(data:any){
-
+        // console.log("data from order services ::: ")
+        // console.log(data)
+        // console.log("data from order services ::: ")
     }
 
 }

@@ -3,6 +3,7 @@ import { OrderLineItemType, OrderWithLineItems } from "../dto/orderRequest.dto";
 import { CartRepositoryType } from "../repository/cart.repository";
 import { OrderRepositoryType } from "../repository/order.repository";
 import { OrderStatus } from "../types";
+import { SendCreateOrderMessage } from "./broker.service";
 
 export const CreateOrder = async(
     userId:number, 
@@ -42,10 +43,10 @@ export const CreateOrder = async(
         orderItems: orderLineItems
     }
 
-    const order = await repo.createOrder(orderInput);
-    await cartRepo.clearCartData(userId);
+    // const order = await repo.createOrder(orderInput);
+    // await cartRepo.clearCartData(userId);
     // fire a message to subscriptioon service [catalog service] to update stock
-
+    await SendCreateOrderMessage(orderInput)
     // await repo.
     // return success message
     return { message :"order created successdully", orderNumber: orderNumber };
