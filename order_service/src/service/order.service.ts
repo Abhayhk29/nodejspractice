@@ -36,15 +36,16 @@ export const CreateOrder = async(
     // create order with line items
     const orderInput : OrderWithLineItems = {
         orderNumber : orderNumber,
-        taxId: null,
+        taxId: null, // payment ID to keep track of successfull payment service
         status: OrderStatus.PENDING,
         customerId: userId,
         amount: cartTotal.toString(),
         orderItems: orderLineItems
     }
 
-    // const order = await repo.createOrder(orderInput);
-    // await cartRepo.clearCartData(userId);
+    const order = await repo.createOrder(orderInput);
+    await cartRepo.clearCartData(userId);
+    console.log("order created ", order);
     // fire a message to subscriptioon service [catalog service] to update stock
     await SendCreateOrderMessage(orderInput)
     // await repo.
