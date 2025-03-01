@@ -1,5 +1,5 @@
 import { DB } from "../db/db.connection";
-import { orderLineItems, orders } from "../db/schema";
+import { cartLineItems, orderLineItems, orders } from "../db/schema";
 import { OrderWithLineItems } from "../dto/orderRequest.dto";
 import { eq } from "drizzle-orm";
 
@@ -12,6 +12,9 @@ export type OrderRepositoryType = {
 };
 
 const createOrder = async (lineItem: OrderWithLineItems): Promise<number> => {
+  console.log("-------------------------------- ")
+  console.log(lineItem)
+  console.log("-------------------------------- ")
   const result = await DB.insert(orders)
     .values({
       customerId: lineItem.customerId,

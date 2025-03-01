@@ -37,7 +37,7 @@ export const CreateOrder = async(
     const orderInput : OrderWithLineItems = {
         orderNumber : orderNumber,
         taxId: null, // payment ID to keep track of successfull payment service
-        status: OrderStatus.PENDING,
+        status: OrderStatus.PENDING,  //payment status will be updated by payment service
         customerId: userId,
         amount: cartTotal.toString(),
         orderItems: orderLineItems
@@ -87,7 +87,7 @@ export const GetOrders = async(
 ) => {
     const orders = await repo.findOrdersByCustomerId(orderId);
     if(Array.isArray(orders) && orders.length > 0){
-        return orderId;
+        return orders;
     }
     throw new Error("Orders not found")
 }
