@@ -114,4 +114,10 @@ router.delete(
     }
 );
 
+router.get("/orders/:id/checkout", (_req: Request, res: Response) => {
+    const orderId = parseInt(_req.params.id);
+    const response = service.CheckoutOrder(orderId, repo);
+    return res.status(200).json({ message: "I am healthy!" });
+});
+
 export default router;

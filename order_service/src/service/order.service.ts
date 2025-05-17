@@ -1,5 +1,5 @@
 import { error } from "console";
-import { OrderLineItemType, OrderWithLineItems } from "../dto/orderRequest.dto";
+import { InProcessOrder, OrderLineItemType, OrderWithLineItems } from "../dto/orderRequest.dto";
 import { CartRepositoryType } from "../repository/cart.repository";
 import { OrderRepositoryType } from "../repository/order.repository";
 import { OrderStatus } from "../types";
@@ -103,4 +103,28 @@ export const DeleteOrder = async (
 export const HandleSubscription = async (mesage:any) => {
     // if message event check by the data
     // 
+}
+
+export const CheckoutOrder = async (
+    orerId:number ,
+    repo: OrderRepositoryType,   
+) => {
+    // get order details
+    // if message event check by the data
+    const order = await repo.findOrder(orerId);
+    if(!order){
+        throw new Error("Order not found")
+    }
+
+    const CheckoutOrder : InProcessOrder = {
+        id: order.id,
+        orderNumber: order.orderNumber,
+        status: OrderStatus.PENDING,
+        customerId: order.customerId,
+        amount: Number(order.amount),
+        createdAt: new Date(),
+        updatedAt: new Date()
+    }
+
+    return  CheckoutOrder;
 }
