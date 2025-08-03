@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@elastic/elasticsearch": "^9.1.0",
     "@prisma/client": "5.8.0",
     "@sinclair/typebox": "^0.32.30",
     "@types/node": "^20.8.10",
